@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>index</title>
+	<meta name="generator" content="TextMate http://macromates.com/">
+	<meta name="author" content="Dhruva Krishnan">
+	<!-- Date: 2011-07-30 -->
+	<link rel="stylesheet" href="styles.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<link href='http://fonts.googleapis.com/css?family=Artifika|Holtwood+One+SC' rel='stylesheet' type='text/css'>	
+	<style type="text/css">
+	  html { height: 100% }
+	  body { height: 100%; margin: 0; padding: 0 }
+	  #map_canvas { height: 100% }
+	</style>
+	<script src="http://yui.yahooapis.com/3.3.0/build/yui/yui-min.js"></script>
+	<script src="http://yui.yahooapis.com/3.2.0/build/yui/yui-min.js"></script>
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+	<script type="text/javascript" src="script.js"></script>
+	<script type="text/javascript">
+	var map;
+	function initialize() {
+		var myLatlng = new google.maps.LatLng(12.958788,77.574102);
+		var myOptions = {
+			zoom: 12,
+			center: myLatlng,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		}
+		map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+		YUI().use('yql', function(Y) {
+		    Y.YQL('select location, id,content,urls,secret,farm,server,description from flickr.photos.info where photo_id in (select id from flickr.photos.search where has_geo="true" and tags="#fotocop")', function(r) {
+				for(var i = 0; i <  r.query.count; i++){
+					var lat = r.query.results.photo[i].location.latitude;
+					var longg = r.query.results.photo[i].location.longitude;
+					var area = r.query.results.photo[i].location.neighbourhood.content;
+					var actualPhoto = r.query.results.photo[i].urls.url.content;
+					if(r.query.results.photo[i].description){
+						var desc = r.query.results.photo[i].description;
+					}else{
+						var desc = "No Description available";
+					}
+					var photoUrl = "http://farm" + r.query.results.photo[i].farm +".static.flickr.com/"+ r.query.results.photo[i].server + "/" + r.query.results.photo[i].id + "_" + r.query.results.photo[i].secret + "_t_d.jpg";
+					var photoId = r.query.results.photo[i].id;
+					var bigUrl = "http://farm" + r.query.results.photo[i].farm +".static.flickr.com/"+ r.query.results.photo[i].server + "/" + r.query.results.photo[i].id + "_" + r.query.results.photo[i].secret + "_d.jpg";
+					addMarkers(lat, longg, area, photoUrl, photoId, actualPhoto, desc, bigUrl, map);
+				}
+		    });
+		});
+
+		YUI({
+		    gallery: 'gallery-2011.01.26-20-33'
+		}).use('gallery-charts', function(Y) {
+
+
+	
+		        var myDataValues = [
+		            ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+		            [8, 0, 0, 0, 0]
+		        ];
+
+		        var mychart = new Y.Chart({
+		              dataProvider: myDataValues
+		              //render:"#heat_map"
+		        });
+		
+				var mychart_1 = new Y.Chart({
+		              dataProvider: myDataValues
+		              //render:"#heat_map1"
+		        });
+
+		});
+
+	}
+	</script>
+	</head>
+	<body onload="initialize()">
+		<div id="header" style="width: 50%; padding-top: 0px; position: absolute; top: 0px;">What The Hole!</div>
+		<div id="heat_map" class = "desc" style=" position: absolute; top: 20px; float: left; margin: 40px 0px 0px 6px; width:39%; height:40%; bottom: 25px; 
+		">What the Hole is an attempt at addressing Pot hole issues in Bangalore. We wish to create awareness by pushing corporators to take action</div>
+		<div id="howTo" class="desc">
+			<p>How to use</p>
+			<ul>
+			  <li>Click on any marker on the Map</li>
+			  <li>Click on More info for Councillor details and pothole details</li>
+			  <li>Call or Text the Councillor</li>
+			</ul>
+		</div>
+		<div id="map_canvas" style="float: right; position: bottom; display: block; margin: 5 0px 0px 0px; width:60%; height:100%">
+			<div id="">
+		</div>
+	</body>
+	</html>

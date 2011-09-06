@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>index</title>
+    <meta name="generator" content="TextMate http://macromates.com/">
+    <meta name="author" content="Dhruva Krishnan">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.3.0/build/cssgrids/grids.css" type="text/css">
+    <link rel="stylesheet" href="styles.css" type="text/css">
+    <script src="http://yui.yahooapis.com/3.3.0/build/yui/yui-min.js"></script>
+</head>
+<body id="doc">
+    <div id="hd">
+        <h1>Fixed Layout Template</h1>
+    </div>
+
+    <div class="yui3-g">
+
+        <div class="yui3-u-2-5">
+            <div class="content">
+            <?php
+                echo "<img src=$_GET['photo'] />"; 
+            ?>
+            </div>
+        </div>
+
+        <div class="yui3-u-2-5">
+            <div class="content_1">
+            <?php
+            echo "<img scr=$_GET['corpphoto']>";
+            echo "Name: $_GET['name']<br/>";
+            
+            echo "Ward Number: $_GET['ward_num']<br/>";
+            echo "Ward Name: $_GET['ward_name']<br/>";
+            echo "Phone Number: $_GET['phone_num']<br/>",
+            echo "Address: $_GET['address']<br/>";        
+            ?>
+            </div>
+        </div>
+    </div>
+</body>
+</html>`
